@@ -1,6 +1,7 @@
 import os
+from datetime import datetime
 
-base_link = "https://github.com/<USERNAME>/<REPOSITORY_NAME>/blob/main/src/"
+base_link = "https://github.com/joebost/aoc/blob/main/src/"
 
 
 def parse(e):
@@ -11,7 +12,12 @@ def parse(e):
 
 solutions = filter(lambda x: ".py" in x and "init" not in x, os.listdir("src"))
 
-readme_content = "# Advent of code\nProblems list:\n"
+readme_content = f"""# Advent of code {datetime.now().year}
+[Leaderboard](https://adventofcode.com/2022/leaderboard/private/view/1686733)
+
+### Problems list:
+"""
+
 tmp = [f"{i+1}. {parse(e)}" for i, e in enumerate(sorted(solutions))]
 readme_content += "\n".join(tmp)
 
