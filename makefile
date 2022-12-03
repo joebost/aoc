@@ -13,4 +13,4 @@ new:
 	@python3 src/utils/new_file.py
 
 readme:
-	@python src/utils/build_md.py
+	@python3 src/utils/build_md.py
