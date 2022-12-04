@@ -2,5 +2,7 @@
 [Leaderboard](https://adventofcode.com/2022/leaderboard/private/view/1686733)
 
 ### Problems list:
-1. [Calorie_Counting_01](https://github.com/joebost/aoc/blob/main/src/Calorie_Counting_01.py)
-2. [Rock_Paper_Scissors_02](https://github.com/joebost/aoc/blob/main/src/Rock_Paper_Scissors_02.py)
+1. [01](https://github.com/joebost/aoc/blob/main/src/01.py)
+2. [02](https://github.com/joebost/aoc/blob/main/src/02.py)
+3. [03](https://github.com/joebost/aoc/blob/main/src/03.py)
+4. [04](https://github.com/joebost/aoc/blob/main/src/04.py)
