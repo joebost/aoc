@@ -13,7 +13,7 @@ def parse(e):
 solutions = filter(lambda x: ".py" in x and "init" not in x, os.listdir("src"))
 
 readme_content = f"""# Advent of code {datetime.now().year}
-[Leaderboard](https://adventofcode.com/2022/leaderboard/private/view/1686733)
+[Leaderboard](https://adventofcode.com/2023/leaderboard/private/view/1686733)
 
 ### Problems list:
 """
