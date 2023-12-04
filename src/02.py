@@ -1,69 +1,59 @@
 from utils.api import get_input
+import math
 
 input_str = get_input(2)
+#p1
+res = 0
+maxes = {"red": 12, "green":13, "blue":14}
 
-# p1
+def is_game_possible(s):
+    indexes = {"red":s.find("red"), "blue":s.find("blue"), "green":s.find("green")}
+    for color_name in indexes:
+        color = indexes[color_name]
+        if color != -1:
+            num_of_cubes_index = color-2
+            num = []
+            while s[num_of_cubes_index].isdigit():
+                num.insert(0, s[num_of_cubes_index])
+                num_of_cubes_index-=1
+            num = int("".join(str(x) for x in num))
+            if num > maxes[color_name]:
+                return False 
+    return True
 
-"""
-0 - lost
-3 - draw
-6 - win
+for i, game in enumerate(input_str.split("\n")):
+    game_num = i+1
+    res += game_num
 
-1 - A/X rock
-2 - B/Y paper
-3- C/Z scissors
-"""
+    s = game.split(":")[1].strip()
+    combos = s.split(";")
 
-ROCK = "A"
-PAPER = "B"
-SCISSORS = "C"
+    for combo in combos:
+        combo = combo.strip()
+        if not is_game_possible(combo):
+            res -= game_num
+            break
 
-ROCK_1 = "X"
-PAPER_2 = "Y"
-SCISSORS_3 = "Z"
-
-
-match_ups = {
-    "A X": 4, # tie
-    "A Y": 8, # win
-    "A Z": 3, # loss
-    "B X": 1, # loss
-    "B Y": 5, # tie
-    "B Z": 9, # win
-    "C X": 7, # win
-    "C Y": 2, # loss
-    "C Z": 6, # tie
-}
-
-total = 0
-match_up_strs = input_str.split("\n")
-
-for match in match_up_strs:
-    total += match_ups[match]
-
-print(total)
+print(res)
 
 # p2
 """
-X = loss
-Y = draw
-Z = win
+for each game
+find max of every color, default is 0 if color not found
+mulitple and add to res
 """
+def max_for_color(color, s):
+    max_ = 0
+    lines = s.replace(";", ",").split(",")
+    for line in lines:
+        if color in line:
+            print(line)
+            max_ = max(max_, [int(x) for x in line.split() if x.isdigit()][0])
+    return max_
 
-new_match_ups = {
-    "A X": 3, # scissors
-    "A Y": 4, # rock
-    "A Z": 8, # paper
-    "B X": 1, # rock
-    "B Y": 5, # paper
-    "B Z": 9, # scissors
-    "C X": 2, # paper
-    "C Y": 6, # scissors
-    "C Z": 7, # rock
-}
+res = 0
+for i, game in enumerate(input_str.split("\n")):
+    s = game.split(":")[1].strip()
+    res += math.prod([max_for_color(c,s) for c in ["red", "blue", "green"]])
 
-total = 0
-for match in match_up_strs:
-    total += new_match_ups[match]
-
-print(total)
+print(res)

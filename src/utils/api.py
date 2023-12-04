@@ -11,7 +11,7 @@ def get_url(year, day):
     return f"https://adventofcode.com/{year}/day/{day}/input"
 
 
-YEAR = 2022
+YEAR = 2023
 SESSION_ID_FILE = "session.cookie"
 SESSION = get_session_id(SESSION_ID_FILE)
 HEADERS = {
@@ -25,6 +25,7 @@ def get_input(day):
 
     if not exists(path):
         url = get_url(YEAR, day)
+        print(url)
         response = requests.get(url, headers=HEADERS, cookies=COOKIES)
         if not response.ok:
             raise RuntimeError(

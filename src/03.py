@@ -1,57 +1,74 @@
 from utils.api import get_input
+import math
 
 input_str = get_input(3)
 
 # p1
-offset = ord('A')
-s = input_str.split("\n")
-pairs = []
-total = 0
+sl = set() # tuples of all locations that aren't numbers or .
+for i, row in enumerate(input_str.split("\n")):
+    for j, c in enumerate(row):
+        if not c.isdigit() and c != ".":
+            sl.add((i, j))
 
-for s2 in s:
-    firstpart, secondpart = s2[:len(s2)//2], s2[len(s2)//2:]
+def is_part(i, j):
+    for ii in range(-1, 2):
+        for jj in range(-1, 2):
+            if (i+ii, j+jj) in sl:
+                return True
+    return False
 
-    occur = {}
-    for c in firstpart:
-        occur[c] = True
+res = 0
+for i, row in enumerate(input_str.split("\n")):
+    visited = set()
+    for j, c in enumerate(row):
+        if c.isdigit() and j not in visited:
+            begin = j
+            while j < len(row) and row[j].isdigit():
+                visited.add(j)
+                j += 1
+            num = int(row[begin:j])
+            for x in range(begin, j):
+                if is_part(i, x):
+                    print(f"{num} is a part")
+                    res += num
+                    break
 
-    for c in secondpart:
-        if c in occur:
-            print(f"{c} is in {firstpart} and {secondpart}")
-            if ord(c) < ord('a'):
-                value = ord(c) - ord('A') + 26 + 1
-                total += value
-            else:
-                value = ord(c) - ord('a') + 1
-                total += value
-            break
+nums = {}
+gears = set()
+
+key = 0
+for i, row in enumerate(input_str.split("\n")):
+    visited = set()
+    for j, c in enumerate(row):
+        if c == "*":
+            gears.add((i, j))
+
+        if c.isdigit() and j not in visited:
+            cords = set()
+            begin = j
+            while j < len(row) and row[j].isdigit():
+                visited.add(j)
+                cords.add((i, j))
+                j += 1
+            num = int(row[begin:j])
+            for cord in cords:
+                nums[cord] = (num, key)
+            key += 1
+
+res = 0
+for gear in gears:
+    keys = set()
+    adj = set()
+    i,j = gear
+    for ii in range(-1, 2):
+        for jj in range(-1, 2):
+            if (i+ii, j+jj) in nums and nums[i+ii, j+jj][1] not in keys:
+                adj.add(nums[i+ii, j+jj][0])
+                keys.add(nums[i+ii, j+jj][1])
+    if len(adj) == 2:
+        res += math.prod(x for x in adj)
+
+print(res)
 
 
-print(total)
-    
-# p2
-total = 0
-for i in range(0, len(s), 3):
-    one, two, three = s[i], s[i+1], s[i+2]
-    m = {}
-
-    for c in one:
-        m[c] = [False]
-    
-    for c in two:
-        if c in m:
-            m[c] = [True]
-    
-    for c in three:
-        if c in m and m[c] == [True]:
-            if ord(c) < ord('a'):
-                value = ord(c) - ord('A') + 26 + 1
-                total += value
-            else:
-                value = ord(c) - ord('a') + 1
-                total += value
-            break
-
-print(total)
-    
 
