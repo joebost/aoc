@@ -40,7 +40,6 @@ verify
 def verify(x):
     l = len(x)
     n = len([a for a in x if a.endswith("Z")])
-    if n > 3: print(x)
 
     return l == n 
 
@@ -64,5 +63,6 @@ while True:
                 res[j] = moves
         
         if 0 not in res:
+            print(res)
             print(math.lcm(*res))
             exit()
